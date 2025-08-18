@@ -2,6 +2,7 @@
 # We use a Go base image to compile the source code.
 # golang:1.22-alpine is a good choice for a small build environment.
 FROM registry.redhat.io/rhel8/go-toolset:1.24.4 AS builder
+#FROM docker.io/library/golang:1.24.4 AS builder
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -19,8 +20,10 @@ RUN GOFIPS140=latest CGO_ENABLED=1 GOOS=linux GOEXPERIMENT=strictfipsruntime go 
 
 # --- Stage 2: Create the final production image ---
 # Use a minimal base image like 'alpine' to keep the image small.
-#FROM registry.access.redhat.com/ubi8/ubi-minimal
-FROM registry.redhat.io/rhel8/go-toolset:1.24.4
+FROM registry.access.redhat.com/ubi8/ubi-minimal
+#FROM docker.io/library/golang:1.24.4
+#FROM registry.redhat.io/rhel8/go-toolset:1.24.4
+
 
 # Set the working directory for the final application
 WORKDIR /root
